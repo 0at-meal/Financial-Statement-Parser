@@ -1,8 +1,11 @@
 import streamlit as st
 import pandas as pd
 import requests
+import os
+from dotenv import load_dotenv
 
-API_KEY = "9P6gFayl8N2buxt2TNDW5TQ7lDqzO44W"  
+load_dotenv()
+api_key = os.getenv("API_KEY")  
 BASE_URL = "https://financialmodelingprep.com/stable/"
 
 st.set_page_config(page_title="Financial Statement Parser", layout="wide")
@@ -23,10 +26,9 @@ statement_map = {
     "Cash Flow": "cash-flow-statement"
 }
 
-#https://financialmodelingprep.com/stable/income-statement?symbol=AAPL&apikey=9P6gFayl8N2buxt2TNDW5TQ7lDqzO44W - Income statement
 @st.cache_data  
 def get_financial_data(ticker, statement_type):
-    url = f"{BASE_URL}{statement_type}?symbol={ticker}&apikey={API_KEY}"
+    url = f"{BASE_URL}{statement_type}?symbol={ticker}&apikey={api_key}"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
